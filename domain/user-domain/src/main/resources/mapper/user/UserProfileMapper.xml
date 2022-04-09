@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuccicode.authorize.domain.user.mapper.UserProfileMapper">
+    <resultMap id="BaseResultMap" type="com.tuccicode.authorize.domain.user.db.UserProfileDO">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="updated_time" property="updatedTime" jdbcType="BIGINT"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid, avatar, nickname, birthday, province,
+        city, gender, introduction, create_time, updated_time
+    </sql>
+
+    <select id="selectByUid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        user_profile
+        WHERE
+        is_deleted = FALSE
+        AND uid = #{uid}
+    </select>
+
+    <update id="updateByUid">
+        UPDATE user_profile
+        SET
+        <if test="avatar != null and avatar != ''">
+            avatar = #{avatar},
+        </if>
+        <if test="nickname != null and nickname != ''">
+            nickname = #{nickname},
+        </if>
+        <if test="province != null and province != ''">
+            province = #{province},
+        </if>
+        <if test="city != null and city != ''">
+            city = #{city},
+        </if>
+        <if test="gender != null">
+            gender = #{gender},
+        </if>
+        birthday = #{birthday},
+        introduction = #{introduction},
+        updated_time = #{updatedTime}
+        WHERE
+        uid = #{uid}
+    </update>
+</mapper>

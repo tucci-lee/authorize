@@ -1,0 +1,64 @@
+server:
+  port: 7500
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/account?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+  redis:
+    host: localhost
+    port: 6379
+    database: 10
+    password:
+    redisson:
+      # 使用config配置，大部分使用默认配置。具体配置查看https://github.com/redisson/redisson/wiki/2.-Configuration
+      config: |
+        singleServerConfig:
+          address: "redis://${spring.redis.host}:${spring.redis.port}"
+          password: ${spring.redis.password}
+          database: ${spring.redis.database}
+        codec: !<org.redisson.codec.JsonJacksonCodec> {}
+  cache:
+    type: redis
+  servlet:
+    multipart:
+      # 文件上传大小限制
+      max-file-size: 5MB
+      max-request-size: 5MB
+  mail:
+    host: smtpdm.aliyun.com
+    port: 465
+    username: username
+    password: password
+    properties:
+      mail.smtp.ssl.enable: true
+
+# mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+
+# 阿里云服务
+aliyun:
+  access-key: accesskey
+  access-secret: accesssecret
+  sms:
+    # 签名
+    sign-name: Tucci
+    # 模板
+    template:
+      signin: SMS_236815464
+      modify-phone: SMS_228137241
+      modify-phone-verify: SMS_228137241
+      modify-email-verify: SMS_228117444
+      modify-password: SMS_228142242
+  oss:
+    endpoint: oss-cn-qingdao.aliyuncs.com
+    # 存储桶
+    bucket-name: tucci-sso
+    # 拼接访问地址，需要oss绑定这个域名。如果为空则拼接${bucket-name}.${endpoint}/
+    domain: https://sso-res.2cci.cn/
+
+

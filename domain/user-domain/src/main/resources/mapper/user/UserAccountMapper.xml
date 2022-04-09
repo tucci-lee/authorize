@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuccicode.authorize.domain.user.mapper.UserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.tuccicode.authorize.domain.user.db.UserAccountDO">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="is_lock" property="isLock" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="updated_time" property="updatedTime" jdbcType="BIGINT"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid, email, phone, username, password,
+        is_lock, create_time, updated_time, is_deleted
+    </sql>
+
+    <select id="selectByUid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        user_account
+        WHERE
+        is_deleted = FALSE
+        AND uid = #{uid}
+    </select>
+
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        user_account
+        WHERE
+        is_deleted = FALSE
+        AND phone = #{phone}
+    </select>
+
+    <select id="selectByEmail" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        user_account
+        WHERE
+        is_deleted = FALSE
+        AND email = #{email}
+    </select>
+
+    <update id="updateByUid">
+        UPDATE user_account
+        SET
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        <if test="username != null and username != ''">
+            username = #{username},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        updated_time = #{updatedTime}
+        WHERE
+        uid = #{uid}
+    </update>
+</mapper>

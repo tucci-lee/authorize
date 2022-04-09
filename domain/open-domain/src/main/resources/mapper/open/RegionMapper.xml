@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuccicode.authorize.domain.open.mapper.RegionMapper">
+    <resultMap id="BaseResultMap" type="com.tuccicode.authorize.domain.open.db.RegionDO">
+        <id column="region_id" property="regionId" jdbcType="VARCHAR"/>
+        <id column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+        <id column="name" property="name" jdbcType="VARCHAR"/>
+        <id column="en_name" property="enName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        region_id
+        , parent_id, name, en_name
+    </sql>
+    <select id="selectByParentId" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM region
+        WHERE parent_id = #{parentId}
+    </select>
+
+
+</mapper>
